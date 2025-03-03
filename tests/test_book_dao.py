@@ -10,19 +10,19 @@ class TestBookDAO:
         self.dao.insert_book(Book("Book1", "ABCD", "Karl Franz"))
         self.dao.insert_book(Book("Book2", " DVBD", "Franz Karl"))
         self.dao.insert_book(Book("Book3", "UHUH", "Ghurmak"))
-        self.dao.insert_book(Book("Book4", "HGHGH", "Ayeen"))
+        
 
     def teardown_method(self):
+        self.dao.clear_table()
         self.dao.close()
 
     def test_get_all_books(self):
 
         books = self.dao.get_all_books()
-        assert len(books) == 4
+        assert len(books) == 3
         assert books[0].title == "Book1"
         assert books[1].title == "Book2"
         assert books[2].title == "Book3"
-        assert books[3].title == "Book4"
     
     def test_insert_new_book(self):
 
@@ -55,11 +55,11 @@ class TestBookDAO:
         assert updated_book.description == "En thriller om en borttappad tand."
 
     def test_delete_book(self):
-        book = self.dao.find_by_title("Book4")
+        book = self.dao.find_by_title("Book3")
         assert book is not None
 
         self.dao.delete_book(book)
-        assert self.dao.find_by_title("Book4") is None
-        assert self.dao.find_by_title("Book4") == None
+        assert self.dao.find_by_title("Book3") is None
+        assert self.dao.find_by_title("Book3") == None
 
     
